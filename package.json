@@ -1,0 +1,24 @@
+{
+  "name": "scj-automation2026",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test:stage": "ENV=stage npx playwright test --grep @smoke",
+    "test:prod": "ENV=prod npx playwright test",
+    "test:stagesmoke": "ENV=stage npx playwright test --project=smoke-desktop --project=smoke-mobile",
+    "test:stagecomponents": "ENV=stage npx playwright test --project=components"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.60.0",
+    "@types/node": "^25.8.0"
+  },
+  "dependencies": {
+    "cross-env": "^10.1.0",
+    "dotenv": "^17.4.2"
+  }
+}
