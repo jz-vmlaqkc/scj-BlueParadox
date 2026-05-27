@@ -94,6 +94,23 @@ export default defineConfig({
       use: { ...devices["Desktop Chrome"] },
       testMatch: /.*visual-components.*\.spec\.ts/,
     },
+    {
+      name: "api",
+      testDir: "./tests/api",
+      use: {
+        baseURL: process.env.API_BASE_URL ?? baseUrl,
+        extraHTTPHeaders: {
+          Accept: "application/json",
+          // Add API key / auth token here if global
+          // 'Authorization': `Bearer ${process.env.API_TOKEN}`,
+        },
+      },
+    },
+    {
+      name: "ui",
+      testDir: "./tests/user-flows",
+      use: { ...devices["Desktop Chrome"], baseURL: baseUrl },
+    },
   ],
 
   /* Run your local dev server before starting the tests */
