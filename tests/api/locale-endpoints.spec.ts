@@ -30,5 +30,15 @@ test(
         await expect(res, `${entry.pathname} failed`).toBeOK();
       }
     });
-  },
+
+    await test.step("FR returns 404 for unknown story", async () => {
+      const res = await request.get("/fr/stories/giveMe404");
+      expect(res.status()).toBe(404);
+    });
+
+    await test.step("GB returns 404 for unknown exhibit", async () => {
+      const res = await request.get("/gb/exhibits/letMeSeeThat404");
+      expect(res.status()).toBe(404);
+    });
+  }
 );

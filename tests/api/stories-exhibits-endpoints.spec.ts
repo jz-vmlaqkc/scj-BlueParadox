@@ -39,5 +39,20 @@ test(
         await expect(res, `${entry.pathname} failed`).toBeOK();
       }
     });
+
+    await test.step("Stories return 404 for unknown story", async () => {
+      const res = await request.get("/stories/giveMe404");
+      expect(res.status()).toBe(404);
+    });
+
+    await test.step("Exhibits returns 404 for unknown exhibit", async () => {
+      const res = await request.get("/exhibits/whereThat404Tho");
+      expect(res.status()).toBe(404);
+    });
+
+    await test.step("Films returns 404 for unknown exhibit", async () => {
+      const res = await request.get("/films/whatUp404");
+      expect(res.status()).toBe(404);
+    });
   },
 );
