@@ -5,7 +5,7 @@ import { fetchSitemapUrls } from "../../utils/sitemap";
 test(
   "FR and GB content from sitemap are reachable",
   { tag: ["@api", "@sitemap", "@regression"] },
-  async ({ request, baseURL }) => {
+  async ({ request, baseURL, page }) => {
     const entries = await fetchSitemapUrls(request, baseURL!);
     expect(entries.length, "Sitemap should not be empty").toBeGreaterThan(0);
 
@@ -31,14 +31,29 @@ test(
       }
     });
 
+
     await test.step("FR returns 404 for unknown story", async () => {
-      const res = await request.get("/fr/stories/giveMe404");
-      expect(res.status()).toBe(404);
+      await page.goto("/fr/stories/giveMe404");
+      
+      await expect(
+        page.getByRole("heading", { level: 1, name: "Page introuvable" }),
+      ).toBeVisible();
+      await expect(page.getByRole("img", { name: "Not Found"})).toBeVisible();
+      const homeLink = page.getByLabel("Retour à la page d'accueil");
+      await expect(homeLink).toBeVisible();
+      await expect(homeLink).toHaveAttribute("href", "/fr");
+
     });
 
     await test.step("GB returns 404 for unknown exhibit", async () => {
-      const res = await request.get("/gb/exhibits/letMeSeeThat404");
-      expect(res.status()).toBe(404);
+      await page.goto("/gb/exhibits/letMeSeeThat404");
+      await expect(
+        page.getByRole("heading", { level: 1, name: "Page Not Found" }),
+      ).toBeVisible();
+      await expect(page.getByRole("img", { name: "Not Found" })).toBeVisible();
+      const homeLink = page.getByLabel("Back to Homepage");
+      await expect(homeLink).toBeVisible();
+      await expect(homeLink).toHaveAttribute("href", "/gb");
     });
   }
 );
