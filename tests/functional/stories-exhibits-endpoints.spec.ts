@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 import { fetchSitemapUrls } from "../../utils/sitemap";
 
 test(
-  "Stories and GB content from sitemap are reachable",
+  "Stories, exhibits and films content from sitemap are reachable",
   { tag: ["@api", "@sitemap", "@regression"] },
   async ({ request, baseURL }) => {
     const entries = await fetchSitemapUrls(request, baseURL!);
@@ -14,7 +14,7 @@ test(
     const films = entries.filter((e) => e.pathname.startsWith("/films/"));
 
     expect(stories.length, "No stories found in sitemap").toBeGreaterThan(0);
-    expect(exhibits.length, "No GB content found in sitemap").toBeGreaterThan(
+    expect(exhibits.length, "No exhibits content found in sitemap").toBeGreaterThan(
       0,
     );
     expect(films.length, "No stories found in sitemap").toBeGreaterThan(0);
