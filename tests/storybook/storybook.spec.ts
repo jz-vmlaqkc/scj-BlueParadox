@@ -7,6 +7,7 @@ import { emulateLazyLoadScroll } from "../../utils/visual/helpers2point0";
 import { emulateLazyLoadScrollV2 } from "../../utils/visual/helpers";
 
 let stories: StoryEntry[] = [];
+const skippedIds: string[] = [];
 
 test.beforeAll(async ({ request }) => {
   stories = await discoverStories(request);
@@ -46,6 +47,6 @@ test.describe("Storybook Visual Regression @storybook", () => {
       });
     }
 
-    writeInventory(stories);
+    writeInventory(stories, skippedIds);
   });
 });

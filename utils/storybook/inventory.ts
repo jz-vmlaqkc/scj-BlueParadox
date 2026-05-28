@@ -8,16 +8,24 @@ const LAST_RUN_PATH = path.join(__dirname, "storybook-last-run.json");
 interface LastRunData {
   timestamp: string;
   storyIds: string[];
+  skippedIds?: string[];
 }
 
-export function writeInventory(stories: StoryEntry[]): void {
+export function writeInventory(
+  stories: StoryEntry[],
+  skippedIds: string[] = [],
+): void {
   if (stories.length === 0) return;
 
   const timestamp = new Date().toISOString();
   const currentIds = stories.map((s) => s.id);
+  const skippedSet = new Set(skippedIds);
+  const skippedStories = stories.filter((s) => skippedSet.has(s.id));
 
   let newStories: StoryEntry[] = [];
   let removedIds: string[] = [];
+  let newlySkippedIds: string[] = [];
+  let recoveredIds: string[] = [];
 
   if (fs.existsSync(LAST_RUN_PATH)) {
     const lastRun: LastRunData = JSON.parse(
@@ -25,9 +33,14 @@ export function writeInventory(stories: StoryEntry[]): void {
     );
     const previousIds = new Set(lastRun.storyIds);
     const currentIdSet = new Set(currentIds);
+    const previousSkipped = new Set(lastRun.skippedIds ?? []);
 
     newStories = stories.filter((s) => !previousIds.has(s.id));
     removedIds = lastRun.storyIds.filter((id) => !currentIdSet.has(id));
+    newlySkippedIds = skippedIds.filter((id) => !previousSkipped.has(id));
+    recoveredIds = [...previousSkipped].filter(
+      (id) => !skippedSet.has(id) && currentIdSet.has(id),
+    );
   }
 
   const grouped = new Map<string, StoryEntry[]>();
@@ -43,14 +56,22 @@ export function writeInventory(stories: StoryEntry[]): void {
     `> Auto-generated on ${timestamp}`,
     `>`,
     `> **${stories.length}** stories across **${grouped.size}** topics`,
+    `>`,
+    `> **${skippedIds.length}** skipped during last run`,
     ``,
     `---`,
     ``,
   ];
 
-  if (newStories.length > 0 || removedIds.length > 0) {
-    lines.push(`## Changes`);
-    lines.push(``);
+  const hasChanges =
+  newStories.length > 0 ||
+  removedIds.length > 0 ||
+  newlySkippedIds.length > 0 ||
+  recoveredIds.length > 0;
+
+if (hasChanges) {
+  lines.push(`## Changes`);
+  lines.push(``);
 
     if (newStories.length > 0) {
       lines.push(`### 🆕 New (${newStories.length})`);
@@ -69,6 +90,24 @@ export function writeInventory(stories: StoryEntry[]): void {
       }
       lines.push(``);
     }
+
+    if (newlySkippedIds.length > 0) {
+      lines.push(`### ⚠️ Newly Skipped (${newlySkippedIds.length})`);
+      lines.push(``);
+      for (const id of newlySkippedIds) {
+        lines.push(`- \`${id}\``);
+      }
+      lines.push(``);
+    }
+
+    if (recoveredIds.length > 0) {
+      lines.push(`### ✅ Recovered (${recoveredIds.length})`);
+      lines.push(``);
+      for (const id of recoveredIds) {
+        lines.push(`- \`${id}\``);
+      }
+      lines.push(``);
+    }
   } else {
     lines.push(`> ✅ No changes since last run`);
     lines.push(``);
@@ -83,15 +122,20 @@ export function writeInventory(stories: StoryEntry[]): void {
     lines.push(`| Story | ID |`);
     lines.push(`|-------|----|`);
     for (const s of componentStories) {
-      lines.push(`| ${s.name} | \`${s.id}\` |`);
-    }
+        const status = skippedSet.has(s.id) ? "⚠️ Skipped" : "✅";
+        lines.push(`| ${s.name} | \`${s.id}\` | ${status} |`);
+      }
     lines.push(``);
   }
 
   fs.writeFileSync(STORYBOOK_CONFIG.inventoryPath, lines.join("\n"), "utf-8");
   console.log(`📋 Inventory written to ${STORYBOOK_CONFIG.inventoryPath}`);
 
-  const lastRunData: LastRunData = { timestamp, storyIds: currentIds };
+  const lastRunData: LastRunData = {
+    timestamp,
+    storyIds: currentIds,
+    skippedIds,
+  };
   fs.writeFileSync(
     LAST_RUN_PATH,
     JSON.stringify(lastRunData, null, 2),
