@@ -7,7 +7,10 @@
     "test:stage": "ENV=stage npx playwright test --grep @smoke",
     "test:prod": "ENV=prod npx playwright test",
     "test:stagesmoke": "ENV=stage npx playwright test --project=smoke-desktop --project=smoke-mobile",
-    "test:stagecomponents": "ENV=stage npx playwright test --project=components"
+    "test:stagecomponents": "ENV=stage npx playwright test --project=components",
+    "test:storybook": "rm -f utils/storybook/storybook-inventory.md && npx playwright test tests/storybook/storybook.spec.ts --project=chromium",
+    "test:storybook:all": "rm -f utils/storybook/storybook-inventory.md && npx playwright test tests/storybook/storybook.spec.ts",
+    "test:storybook:update": "rm -f utils/storybook/storybook-inventory.md && npx playwright test tests/storybook/storybook.spec.ts --update-snapshots"
   },
   "keywords": [],
   "author": "",
