@@ -1,8 +1,11 @@
 import { test, expect } from "@playwright/test";
-import { paths } from "../utils/index";
-import { forceFonts } from "../utils/index";
-import { emulateLazyLoadScroll } from "../utils/index"
-import { emulateLazyLoadScrollV2 } from "../utils/index";
+import {
+  paths,
+  forceFonts,
+  emulateLazyLoadScroll,
+  emulateLazyLoadScrollV2,
+  getMaskedLocators,
+} from "../utils/index";
 import path from "path";
 
 for (const [pageName, { path, title }] of Object.entries(paths)) {
@@ -22,6 +25,8 @@ for (const [pageName, { path, title }] of Object.entries(paths)) {
         maxDiffPixels: 100,
         threshold: 0.3,
         //stylePath: path.join(__dirname, "screenshot.css"),
+        mask: getMaskedLocators(page),
+        maskColor: "#FF00FF",
       });
     });
     

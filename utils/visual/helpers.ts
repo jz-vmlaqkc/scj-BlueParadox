@@ -35,4 +35,12 @@ async function emulateLazyLoadScrollV2(page: Page): Promise<void> {
 
 export { emulateLazyLoadScrollV2 };
 
+export async function forceFonts(page: Page) {
+  await page.evaluate(() => {
+    // Force complete rendering
+    window.scrollTo(0, document.body.scrollHeight);
+    window.scrollTo(0, 0);
+  });
+}
+
 
