@@ -10,7 +10,8 @@
     "test:stagecomponents": "ENV=stage npx playwright test --project=components",
     "test:storybook": "rm -f utils/storybook/storybook-inventory.md && npx playwright test tests/storybook/storybook.spec.ts --project=chromium",
     "test:storybook:all": "rm -f utils/storybook/storybook-inventory.md && npx playwright test tests/storybook/storybook.spec.ts",
-    "test:storybook:update": "rm -f utils/storybook/storybook-inventory.md && npx playwright test tests/storybook/storybook.spec.ts --update-snapshots"
+    "test:storybook:update": "rm -f utils/storybook/storybook-inventory.md && npx playwright test tests/storybook/storybook.spec.ts --update-snapshots",
+    "test:stageApi": "ENV=stage npx playwright test --grep @api"
   },
   "keywords": [],
   "author": "",
@@ -18,10 +19,12 @@
   "type": "commonjs",
   "devDependencies": {
     "@playwright/test": "^1.60.0",
-    "@types/node": "^25.8.0"
+    "@types/node": "^25.9.1"
   },
   "dependencies": {
     "cross-env": "^10.1.0",
-    "dotenv": "^17.4.2"
+    "dotenv": "^17.4.2",
+    "fast-xml-parser": "^5.8.0",
+    "zod": "^4.4.3"
   }
 }

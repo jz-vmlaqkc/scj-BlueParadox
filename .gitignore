@@ -10,3 +10,4 @@ screenshots/
 .DS_Store
 /utils/storybook/storybook-last-run.json
 /utils/storybook/storybook-inventory.md
+samples/
