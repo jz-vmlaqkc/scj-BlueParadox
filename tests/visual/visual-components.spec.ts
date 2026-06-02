@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
-import { paths } from "../utils/paths";
-import { components } from "../utils/components";
+import { paths } from "../../utils/paths";
+import { components } from "../../utils/components";
 
 for (const [pageName, { path }] of Object.entries(paths)) {
   test.describe(`${pageName} - Components`, () => {
