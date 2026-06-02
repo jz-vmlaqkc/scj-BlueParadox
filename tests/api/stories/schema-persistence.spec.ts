@@ -1,17 +1,29 @@
-/* Example:
+import { test, expect } from "@playwright/test";
+import { fetchAllContent } from "../../../utils/api/content-api";
+import { ContentItemSchema } from "../../../utils/api/schema/content.schema";
 
-test("All stories share the same schema", async ({ request }) => {
-    const res = await request.get("/api/stories"); // list endpoint
-    const body = await res.json();
-    
-    for (const story of body.items) {
-      expect(story).toMatchObject({
-        slug: expect.any(String),
-        title: expect.any(String),
-        publishedAt: expect.any(String),
-        heroImage: expect.any(String),
-      });
-    }
-    });
+test.describe("Content API - schema persistence", () => {
+  test(
+    "every content item conforms to ContentItemSchema",
+    { tag: ["@api", "@content", "@schema", "@regression"] },
+    async ({ request }) => {
+      const items = await fetchAllContent(request);
+      const failures: string[] = [];
 
-    */
+      for (const item of items) {
+        const result = ContentItemSchema.safeParse(item);
+        if (!result.success) {
+          const issues = result.error.issues
+            .map((i) => `  - ${i.path.join(".") || "(root)"}: ${i.message}`)
+            .join("\n");
+          failures.push(`[${item.slug ?? "unknown"}]\n${issues}`);
+        }
+      }
+
+      expect(
+        failures,
+        `Schema drift detected:\n\n${failures.join("\n\n")}`,
+      ).toEqual([]);
+    },
+  );
+});

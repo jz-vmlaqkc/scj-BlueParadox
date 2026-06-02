@@ -6,7 +6,7 @@ import { defineConfig, devices } from '@playwright/test';
  */
 import dotenv from 'dotenv';
 import path from 'path';
-dotenv.config({ path: "./utils/env/.env" });
+dotenv.config({ path: path.resolve(__dirname, "utils/env/.env") });
 
 let baseUrl: string = process.env.BASE_URL || "";
 let environment = process.env.ENV?.toLowerCase() || "default";
@@ -26,10 +26,10 @@ if (!baseUrl) {
   }
 
   // If no URL found in environment variables, throw an error
-  if (!baseUrl) {
+ /* if (!baseUrl) {
     throw new Error(`No URL configured for environment '${environment}'. 
     Please check your .env file or provide a DEBUG_URL.`);
-  }
+  }*/
 }
 
 // Set NODE_ENV to match our environment for screenshot directories
@@ -63,6 +63,7 @@ export default defineConfig({
     /* Base URL to use in actions like `await page.goto('')`. */
     //baseURL: "https://scj:creative@stage.blueparadox.com",
     baseURL: baseUrl,
+    httpCredentials: { username: "scj", password: "creative" },
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
   },
@@ -111,7 +112,7 @@ export default defineConfig({
       testDir: "./tests/user-flows",
       use: {
         ...devices["Desktop Chrome"],
-        baseURL: baseUrl
+        baseURL: baseUrl,
       },
     },
   ],
@@ -123,3 +124,4 @@ export default defineConfig({
   //   reuseExistingServer: !process.env.CI,
   // },
 });
+

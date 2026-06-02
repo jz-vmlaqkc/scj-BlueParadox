@@ -1,6 +1,6 @@
 // tests/api/sitemap/locale-content-health.spec.ts
 import { test, expect } from "@playwright/test";
-import { fetchSitemapUrls } from "../../utils/sitemap";
+import { fetchSitemapUrls } from "../../utils/api/sitemap";
 
 test(
   "Stories, exhibits and films content from sitemap are reachable",
@@ -14,9 +14,10 @@ test(
     const films = entries.filter((e) => e.pathname.startsWith("/films/"));
 
     expect(stories.length, "No stories found in sitemap").toBeGreaterThan(0);
-    expect(exhibits.length, "No exhibits content found in sitemap").toBeGreaterThan(
-      0,
-    );
+    expect(
+      exhibits.length,
+      "No exhibits content found in sitemap",
+    ).toBeGreaterThan(0);
     expect(films.length, "No stories found in sitemap").toBeGreaterThan(0);
 
     await test.step("All stories return 200", async () => {
@@ -40,27 +41,26 @@ test(
       }
     });
 
-
     await test.step("Stories return 404 for unknown story", async () => {
       await page.goto("/stories/giveMe404");
-      
+
       await expect(
-        page.getByRole("heading", { level: 1, name: "Page Not Found" })
-    ).toBeVisible();
+        page.getByRole("heading", { level: 1, name: "Page Not Found" }),
+      ).toBeVisible();
 
-    await expect(page.getByRole("img", { name: "Not Found" })).toBeVisible();
+      await expect(page.getByRole("img", { name: "Not Found" })).toBeVisible();
 
-    const homeLink = page.getByLabel("Back to Homepage");
-    await expect(homeLink).toBeVisible();
-    await expect(homeLink).toHaveAttribute("href", "/");
-  });
+      const homeLink = page.getByLabel("Back to Homepage");
+      await expect(homeLink).toBeVisible();
+      await expect(homeLink).toHaveAttribute("href", "/");
+    });
 
     await test.step("Exhibits returns 404 for unknown exhibit", async () => {
       await page.goto("/exhibits/whereThat404Tho");
-      
+
       await expect(
-        page.getByRole("heading", { level: 1, name: "Page Not Found" })
-    ).toBeVisible();
+        page.getByRole("heading", { level: 1, name: "Page Not Found" }),
+      ).toBeVisible();
 
       await expect(page.getByRole("img", { name: "Not Found" })).toBeVisible();
 
@@ -71,7 +71,7 @@ test(
 
     await test.step("Films returns 404 for unknown exhibit", async () => {
       await page.goto("/films/whatUp404");
-      
+
       await expect(
         page.getByRole("heading", { level: 1, name: "Page Not Found" }),
       ).toBeVisible();

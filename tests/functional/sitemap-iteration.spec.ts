@@ -1,5 +1,5 @@
 import { test, expect, request as apiRequest } from "@playwright/test";
-import { fetchSitemapUrls } from "../../utils/sitemap";
+import { fetchSitemapUrls } from "../../utils/api/sitemap";
 
 test(
   "All sitemap URLs respond with 200",

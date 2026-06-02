@@ -1,6 +1,6 @@
 // tests/api/sitemap/locale-content-health.spec.ts
 import { test, expect } from "@playwright/test";
-import { fetchSitemapUrls } from "../../utils/sitemap";
+import { fetchSitemapUrls } from "../../utils/api/sitemap";
 
 test(
   "FR and GB content from sitemap are reachable",
@@ -31,18 +31,16 @@ test(
       }
     });
 
-
     await test.step("FR returns 404 for unknown story", async () => {
       await page.goto("/fr/stories/giveMe404");
-      
+
       await expect(
         page.getByRole("heading", { level: 1, name: "Page introuvable" }),
       ).toBeVisible();
-      await expect(page.getByRole("img", { name: "Not Found"})).toBeVisible();
+      await expect(page.getByRole("img", { name: "Not Found" })).toBeVisible();
       const homeLink = page.getByLabel("Retour à la page d'accueil");
       await expect(homeLink).toBeVisible();
       await expect(homeLink).toHaveAttribute("href", "/fr");
-
     });
 
     await test.step("GB returns 404 for unknown exhibit", async () => {
@@ -55,5 +53,5 @@ test(
       await expect(homeLink).toBeVisible();
       await expect(homeLink).toHaveAttribute("href", "/gb");
     });
-  }
+  },
 );

@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { fetchSitemapUrls, SitemapEntry } from "../../../utils/sitemap";
+import { fetchSitemapUrls, SitemapEntry } from "../../../utils/api/sitemap";
 
 let urls: SitemapEntry[];
 
