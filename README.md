@@ -10,10 +10,14 @@
 3. [Testing](#running-tests)  
 
 ## Suite Capabilities & Test Coverage
-Currently, this site has six delightfully crafted pages. Testing includes
+Currently, this site has six delightfully crafted core pages, with content-driven articles, covering three regional locales.
+
+Testing includes
 - Basic link validation
 - High level content validation
 - Sanity style visual validation
+- Varied API validation, like cache-control, schema, & body response
+- Storybook testing
 
 
 ### The Future Looks Bright
