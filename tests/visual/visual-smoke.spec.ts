@@ -7,6 +7,8 @@ import {
   getMaskedLocators,
 } from "../../utils/index";
 import path from "path";
+import { paths } from "../../utils/paths";
+import { forceFonts } from "../../utils/helpers";
 
 for (const [pageName, { path, title }] of Object.entries(paths)) {
   test.describe(`${pageName} - Visual Regression `, () => {
