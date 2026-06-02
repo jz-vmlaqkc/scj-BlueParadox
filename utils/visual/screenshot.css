@@ -1,0 +1,9 @@
+iframe {
+    visibility: hidden;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
