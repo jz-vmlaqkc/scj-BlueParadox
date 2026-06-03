@@ -10,7 +10,7 @@ test.beforeAll(async ({ request, baseURL }) => {
 
 test(
   "All sitemap URLs are CDN-cacheable",
-  { tag: ["@api", "@sitemap", "@cache"] },
+  { tag: ["@api", "@sitemap", "@cache", "@regression"] },
   async ({ request }) => {
     const failures: string[] = [];
 

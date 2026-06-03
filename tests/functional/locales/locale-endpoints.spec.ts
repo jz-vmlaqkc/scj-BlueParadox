@@ -4,7 +4,7 @@ import { fetchSitemapUrls } from "../../utils/api/sitemap";
 
 test(
   "FR and GB content from sitemap are reachable",
-  { tag: ["@api", "@sitemap", "@regression"] },
+  { tag: ["@api", "@sitemap", "@regression", "@locales"] },
   async ({ request, baseURL, page }) => {
     const entries = await fetchSitemapUrls(request, baseURL!);
     expect(entries.length, "Sitemap should not be empty").toBeGreaterThan(0);

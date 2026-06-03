@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test('Locale persistence, FR', async ({page}) => {
+test('Locale persistence, FR', { tag: ['@locales', '@regression', '@fr']}, async ({page}) => {
     await page.goto("/");
     await page.getByRole("button", { name: "Accept Cookies" }).click();
     await page.getByRole("button", { name: "United States (EN)" }).click();

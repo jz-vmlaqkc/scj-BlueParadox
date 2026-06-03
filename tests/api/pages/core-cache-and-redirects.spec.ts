@@ -5,7 +5,7 @@ for (const [key, { path }] of Object.entries(paths)) {
   test.describe(`Core page: ${key}`, () => {
     test(
       `GET ${path} does not redirect`,
-      { tag: ["@api", "@core-pages", "@redirects", "@regression"] },
+      { tag: ["@api", "@core-pages", "@redirects", "@smoke"] },
       async ({ request }) => {
         const res = await request.get(path, { maxRedirects: 0 });
         expect(res.status()).toBe(200);

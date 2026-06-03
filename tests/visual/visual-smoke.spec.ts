@@ -7,8 +7,6 @@ import {
   getMaskedLocators,
 } from "../../utils/index";
 import path from "path";
-import { paths } from "../../utils/paths";
-import { forceFonts } from "../../utils/helpers";
 
 for (const [pageName, { path, title }] of Object.entries(paths)) {
   test.describe(`${pageName} - Visual Regression `, () => {
@@ -21,8 +19,8 @@ for (const [pageName, { path, title }] of Object.entries(paths)) {
         await page.goto(baseURL + path);
         await page.waitForLoadState("domcontentloaded");
 
-        await forceFonts(page);
-        await emulateLazyLoadScroll(page);
+        //await forceFonts(page);
+        //await emulateLazyLoadScroll(page);
         await expect(page).toHaveScreenshot(`${pageName}-full.png`, {
           fullPage: true,
           animations: "disabled",
@@ -31,7 +29,7 @@ for (const [pageName, { path, title }] of Object.entries(paths)) {
           threshold: 0.3,
           //stylePath: path.join(__dirname, "screenshot.css"),
           mask: getMaskedLocators(page),
-          maskColor: "#FF00FF",
+          maskColor: "#1CBAC4",
         });
       },
     );
