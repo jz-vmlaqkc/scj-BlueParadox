@@ -38,11 +38,15 @@ npm install -D @playwright/test@latest
 npx playwright install --with-deps
 npm install dotenv
 npm install cross-env
+npm install fast-xml-parser
+npm install zod
 ```
 
 ### Guidelines
 Always pull from main before you begin.
 Always create a new branch before you make any changes.
+If you add another dependency, add it to the list above.
+If you add a new tag in any tests, be sure to add it to the scripts in package.json.
 Make small commits with meaningful messages.
 Test your integration before you create a PR.
 PRs will not be reviewed without proof.
@@ -50,6 +54,16 @@ PRs will not be reviewed without proof.
 ## Running Tests
 Referring to scripts in the package, you can append your testing direction by environment.
 This will be updated as suite grows.  
+
+To use these scripts, select one, & run it after "npm run", for example, run the Storybook tests on Chrome desktop only, to just compare against the latest baselines:
+```
+npm run test:storybook
+```
+
+If you're not using a pre-defined script, make sure you're targeting the right environment, for example:
+```
+ENV=stage npx playwright test --grep @your-tag-here
+```
 
 
  
