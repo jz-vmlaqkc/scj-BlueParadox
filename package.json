@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test:stage": "ENV=stage npx playwright test --grep @smoke",
+    "test:stageLocales": "ENV=stage npx playwright test --grep @locales",
     "test:prod": "ENV=prod npx playwright test",
     "test:stagesmoke": "ENV=stage npx playwright test --project=smoke-desktop --project=smoke-mobile",
     "test:stagecomponents": "ENV=stage npx playwright test --project=components",
