@@ -9,7 +9,7 @@ for (const { code, prefix } of locales) {
 
       test(
         `${fullPath} (${key}) does not redirect and is cacheable`,
-        { tag: ["@api", "@locales", "@sanity"] },
+        { tag: ["@api", "@locales", "@smoke"] },
         async ({ request }) => {
           const res = await request.get(fullPath, { maxRedirects: 0 });
           expect(res.status(), `${fullPath} should return 200`).toBe(200);
