@@ -1,9 +1,9 @@
 name: SCJ-BlueParadox Tests
 
 on:
-  workflow_dispatch:
-    inputs:
-     test_suite:
+workflow_dispatch:
+  inputs:
+    test_suite:
       description: 'Which test suite to run'
       required: true
       default: 'test:stage'
@@ -20,11 +20,10 @@ on:
         - test:stageApi
 
 jobs:
-  playwright:
-    name: Run ${{ github.event.inputs.test_suite || 'test:stage' }}
-   timeout-minutes: 60
+playwright:
+  name: Run ${{ github.event.inputs.test_suite || 'test:stage' }}
+  timeout-minutes: 60
   runs-on: ubuntu-latest
-
   steps:
     - name: Checkout
       uses: actions/checkout@v4
