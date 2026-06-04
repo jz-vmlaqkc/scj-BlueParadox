@@ -1,7 +1,7 @@
 import { Page, Locator } from "@playwright/test";
 
 const MASKED_SELECTORS = [
-  '#onetrust-banner-sdk"',
+  '#onetrust-banner-sdk',
   ".scj-infinite-news-carousel.relative.overflow-hidden.w-full",
 ];
 
