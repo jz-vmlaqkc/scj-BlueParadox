@@ -1,60 +1,60 @@
 name: SCJ-BlueParadox Tests
 
 on:
-workflow_dispatch:
-  inputs:
-    test_suite:
-      description: 'Which test suite to run'
-      required: true
-      default: 'test:stage'
-      type: choice
-      options:
-        - test:stage
-        - test:stageLocales
-        - test:prod
-        - test:stagesmoke
-        - test:stagecomponents
-        - test:storybook
-        - test:storybook:all
-        - test:storybook:update
-        - test:stageApi
+  workflow_dispatch:
+    inputs:
+      test_suite:
+        description: 'Which test suite to run'
+        required: true
+        default: 'test:stage'
+        type: choice
+        options:
+          - test:stage
+          - test:stageLocales
+          - test:prod
+          - test:stagesmoke
+          - test:stagecomponents
+          - test:storybook
+          - test:storybook:all
+          - test:storybook:update
+          - test:stageApi
 
 jobs:
-playwright:
-  name: Run ${{ github.event.inputs.test_suite || 'test:stage' }}
-  timeout-minutes: 60
-  runs-on: ubuntu-latest
-  steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+  playwright:
+    name: Run ${{ github.event.inputs.test_suite || 'test:stage' }}
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20
-        cache: 'npm'
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
 
-    - name: Install dependencies
-      run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-    - name: Install Playwright browsers
-      run: npx playwright install --with-deps
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
 
-    - name: Run Playwright tests
-      run: npm run ${{ github.event.inputs.test_suite || 'test:stage' }}
+      - name: Run Playwright tests
+        run: npm run ${{ github.event.inputs.test_suite || 'test:stage' }}
 
-    - name: Upload Playwright report
-      if: ${{ !cancelled() }}
-      uses: actions/upload-artifact@v4
-      with:
-        name: playwright-report-${{ github.event.inputs.test_suite || 'test-stage' }}
-        path: playwright-report/
-        retention-days: 30
+      - name: Upload Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ github.event.inputs.test_suite || 'test-stage' }}
+          path: playwright-report/
+          retention-days: 30
 
-    - name: Upload traces
-      if: failure()
-      uses: actions/upload-artifact@v4
-      with:
-        name: playwright-traces
-        path: test-results/
-        retention-days: 7
+      - name: Upload traces
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-traces
+          path: test-results/
+          retention-days: 7
