@@ -1,6 +1,6 @@
 // tests/api/sitemap/locale-content-health.spec.ts
 import { test, expect } from "@playwright/test";
-import { fetchSitemapUrls } from "../../utils/api/sitemap";
+import { fetchSitemapUrls } from "../../../utils/api/sitemap";
 
 test(
   "FR and GB content from sitemap are reachable",
