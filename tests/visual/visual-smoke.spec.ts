@@ -8,8 +8,8 @@ import {
 } from "../../utils/index";
 import path from "path";
 
-for (const [pageName, { path, title }] of Object.entries(paths)) {
-  test.describe(`${pageName} - Visual Regression `, () => {
+for (const [pageName, { path, title, testID }] of Object.entries(paths)) {
+  test.describe(`${testID} - ${pageName} - Visual Regression `, () => {
     test(
       "full page screenshot",
       {

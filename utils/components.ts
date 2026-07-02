@@ -1,3 +1,12 @@
+/*May need to update with TYPE
+type ComponentEntry = { selector: string; testId: string };
+export const components = {
+  header: {selector: ".scj-navigation", testID: "426" },
+  footer: {selector: "footer[aria-label='Site Footer']", testID: "427"},
+  cookieBanner: {selector: "#onetrust-banner-sdk" , testID:"47"}
+} as const satisfies Record<string, ComponentEntry>;*/
+
+
 export const components = {
   header: {selector: ".scj-navigation", testID: "426" },
   footer: {selector: "footer[aria-label='Site Footer']", testID: "427"},
