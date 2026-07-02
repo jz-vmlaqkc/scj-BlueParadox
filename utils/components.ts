@@ -1,7 +1,7 @@
 export const components = {
-  header: ".scj-navigation",
-  footer: "footer[aria-label='Site Footer']",
-  cookieBanner: "#onetrust-banner-sdk",
+  header: {selector: ".scj-navigation", testID: "426" },
+  footer: {selector: "footer[aria-label='Site Footer']", testID: "427"},
+  cookieBanner: {selector: "#onetrust-banner-sdk" , testID:"47"}
 } as const;
 
 /* It's the notes!
